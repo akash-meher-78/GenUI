@@ -68,9 +68,8 @@ function Home() {
         setProgressPercent((p) => Math.min(95, p + Math.floor(Math.random() * 6) + 1));
       }, 700);
 
-      const SERVER_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:5000";
-
-      const resp = await fetch(`${SERVER_URL}/api/generate`, {
+      // ✅ Call relative API path for Vercel
+      const resp = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: prompt.trim(), framework: frameWork.value }),

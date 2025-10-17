@@ -13,7 +13,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
-
+// 🧩 Fix Monaco define conflict
 if (window.define && window.define.amd) {
   window.define = undefined;
   window.require = undefined;
@@ -47,16 +47,15 @@ function Home() {
     };
   }, []);
 
-  // 🧠 Extract code safely from response
+  // 🧠 Extract code safely from ``` blocks
   function extractCode(response) {
     const match = response.match(/```(?:\w+)?\n?([\s\S]*?)```/);
     return match ? match[1].trim() : response.trim();
   }
 
-  // 🚀 Generate component code
+  // 🚀 Generate code from backend
   async function getResponse() {
-    if (!prompt.trim())
-      return toast.error("Please describe your component first");
+    if (!prompt.trim()) return toast.error("Please describe your component first");
 
     try {
       setLoading(true);
@@ -115,7 +114,7 @@ function Home() {
     }
   };
 
-  // 💾 Download file
+  // 💾 Download HTML file
   const downloadFile = () => {
     if (!code.trim()) return toast.error("No code to download");
 
@@ -123,12 +122,13 @@ function Home() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "GenUI-Code.html";
+    link.download = "Generated-Component.html";
     link.click();
     URL.revokeObjectURL(url);
     toast.success("File downloaded");
   };
 
+  // 🎨 Custom theme for react-select
   const themeStyles = {
     control: (base, state) => ({
       ...base,
@@ -162,25 +162,20 @@ function Home() {
       <Navbar />
 
       <div className="flex flex-col md:flex-row items-start justify-between gap-5 px-5 sm:px-10 md:px-[100px] py-6">
-        {/* Left Section */}
+        {/* 🧩 Left Section */}
         <div
           className="w-full md:w-1/2 rounded-2xl p-5 md:p-7"
           style={{ backgroundColor: "var(--card-bg)" }}
         >
-          <h3 className="text-xl font-semibold nav-text">
-            AI Component Generator
-          </h3>
+          <h3 className="text-xl font-semibold nav-text">AI Component Generator</h3>
           <p
             className="mt-2 text-base md:text-lg"
             style={{ color: "var(--text-secondary)" }}
           >
-            Describe the component you want — AI will generate it for you.
+            Describe your component, and AI will generate it for you.
           </p>
 
-          <p
-            className="text-sm md:text-md font-bold mt-4"
-            style={{ color: "var(--text-secondary)" }}
-          >
+          <p className="text-sm font-bold mt-4" style={{ color: "var(--text-secondary)" }}>
             Choose your Framework
           </p>
           <div className="mt-2">
@@ -193,10 +188,7 @@ function Home() {
             />
           </div>
 
-          <p
-            className="text-sm md:text-md font-bold mt-4"
-            style={{ color: "var(--text-secondary)" }}
-          >
+          <p className="text-sm font-bold mt-4" style={{ color: "var(--text-secondary)" }}>
             Describe Your Component
           </p>
 
@@ -208,7 +200,7 @@ function Home() {
               backgroundColor: "var(--background-tertiary)",
               color: "var(--text-primary)",
             }}
-            placeholder="Describe the UI component (e.g., responsive login form with inputs)"
+            placeholder="e.g., Responsive login form with inputs and gradient background"
           />
 
           <button
@@ -221,20 +213,17 @@ function Home() {
           </button>
         </div>
 
-        {/* Right Section */}
+        {/* 🧠 Right Section */}
         <div
           className="w-full md:w-1/2 h-[300px] sm:h-[400px] md:h-[80vh] rounded-2xl p-5 flex flex-col items-center justify-center text-center min-h-0 relative overflow-hidden"
           style={{ backgroundColor: "var(--card-bg)" }}
         >
           {!outputScreen ? (
             <>
-              <div className="outputScreen w-[60px] sm:w-[70px] h-[60px] sm:h-[70px] rounded-full bg-gradient-to-r from-sky-400 to-indigo-500 flex justify-center items-center">
-                <Code2Icon className="w-8 sm:w-10 h-8 sm:h-10" />
+              <div className="outputScreen w-[70px] h-[70px] rounded-full bg-gradient-to-r from-sky-400 to-indigo-500 flex justify-center items-center">
+                <Code2Icon className="w-10 h-10" />
               </div>
-              <p
-                className="text-base sm:text-xl mt-3"
-                style={{ color: "var(--text-secondary)" }}
-              >
+              <p className="text-base sm:text-xl mt-3" style={{ color: "var(--text-secondary)" }}>
                 Your preview will appear here once ready.
               </p>
             </>
@@ -262,31 +251,19 @@ function Home() {
                 <div className="flex items-center gap-2.5">
                   {tab === 1 ? (
                     <>
-                      <button
-                        onClick={copyCode}
-                        className="w-[40px] h-10 rounded-lg border border-zinc-800 flex justify-center items-center transition-all hover:bg-[#333] cursor-pointer"
-                      >
+                      <button onClick={copyCode} className="tool-btn">
                         <Copy />
                       </button>
-                      <button
-                        onClick={downloadFile}
-                        className="w-[40px] h-10 rounded-lg border border-zinc-800 flex justify-center items-center transition-all hover:bg-[#333] cursor-pointer"
-                      >
+                      <button onClick={downloadFile} className="tool-btn">
                         <CgExport />
                       </button>
                     </>
                   ) : (
                     <>
-                      <button
-                        onClick={() => setIsNewTabOpen(true)}
-                        className="w-[40px] h-10 rounded-lg border border-zinc-800 flex justify-center items-center transition-all hover:bg-[#10edf1] cursor-pointer"
-                      >
+                      <button onClick={() => setIsNewTabOpen(true)} className="tool-btn">
                         <ArrowUpRightFromSquareIcon />
                       </button>
-                      <button
-                        onClick={() => setRefreshKey((prev) => prev + 1)}
-                        className="w-[40px] h-10 rounded-lg border border-zinc-800 flex justify-center items-center transition-all hover:bg-[#333] cursor-pointer"
-                      >
+                      <button onClick={() => setRefreshKey((prev) => prev + 1)} className="tool-btn">
                         <RefreshCw />
                       </button>
                     </>
@@ -299,9 +276,7 @@ function Home() {
                 {tab === 1 ? (
                   <Suspense
                     fallback={
-                      <div className="text-gray-400 text-center py-10">
-                        Loading editor...
-                      </div>
+                      <div className="text-gray-400 text-center py-10">Loading editor...</div>
                     }
                   >
                     <Editor

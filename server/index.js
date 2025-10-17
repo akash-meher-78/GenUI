@@ -26,7 +26,7 @@ app.post('/api/generate', async (req, res) => {
   if (!prompt || !prompt.trim()) return res.status(400).json({ error: 'Prompt is required' });
 
   try {
-    const ai = new GoogleGenAI({ apiKey: API_KEY });
+    const ai = new GoogleGenAI({ apiKey: API_KEY});
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: `You are an experienced programmer with expertise in web development and UI/UX design. You create modern, animated, and fully responsive UI components.\n\nNow, generate a UI component for: ${prompt}\nFramework to use: ${framework}\n\nRequirements:\n- Return ONLY the code in a single HTML file wrapped in Markdown fenced code block.\n- Do NOT include explanation or extra text.\n`,

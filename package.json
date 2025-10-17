@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+  "dev:all": "concurrently \"npm:server\" \"npm:dev\"",
     "build": "vite build",
     "lint": "eslint .",
-    "server": "node ./server/generate.js",
+  "server": "node ./server/generate.js",
     "preview": "vite preview"
   },
   "dependencies": {

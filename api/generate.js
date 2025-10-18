@@ -32,7 +32,6 @@ app.post('/api/generate', async (req, res) => {
       contents: `You are an experienced programmer with expertise in web development and UI/UX design. You create modern, animated, and fully responsive UI components.\n\nNow, generate a UI component for: ${prompt}\nFramework to use: ${framework}\n\nRequirements:\n- Return ONLY the code in a single HTML file wrapped in Markdown fenced code block.\n- Do NOT include explanation or extra text.\n`,
     });
 
-    // response.text may contain fenced code; return it as-is
     return res.json({ code: response.text || '' });
   } catch (err) {
     console.error('Generation failed', err);

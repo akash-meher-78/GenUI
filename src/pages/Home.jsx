@@ -19,7 +19,7 @@ function Home() {
     { value: "react-css", label: "React JS + CSS" },
   ];
 
-  const [outputScreen, setOutputScreen] = useState(true);
+  const [outputScreen, setOutputScreen] = useState(false);
   const [tab, setTab] = useState(1);
   const [prompt, setPrompt] = useState("");
   const [frameWork, setFrameWork] = useState(options[0]);

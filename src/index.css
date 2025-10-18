@@ -166,3 +166,10 @@ body {
   animation: gradient 3s ease infinite;
   background-size: 200% 200%;
 }
+
+/* Mobile-safe viewport unit helper
+   Use height: calc(var(--vh, 1vh) * 100) to work around mobile browser chrome
+   (addressing issues where 100vh is larger than visible area). */
+.vh-100 {
+  height: calc(var(--vh, 1vh) * 100);
+}

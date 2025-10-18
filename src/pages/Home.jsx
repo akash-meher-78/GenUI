@@ -1,35 +1,25 @@
 import React, { useState, useRef, useEffect, lazy, Suspense } from "react";
 import Navbar from "../components/Navbar";
 import Select from "react-select";
-import {
-  ArrowUpRightFromSquareIcon,
-  Code2Icon,
-  Copy,
-  RefreshCw,
-  Sparkles,
-} from "lucide-react";
+import { ArrowUpRightFromSquareIcon, Code2Icon, Copy, RefreshCw, Sparkles } from "lucide-react";
 import { CgExport } from "react-icons/cg";
 import { IoCloseSharp } from "react-icons/io5";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/theme-monokai";
 
-// 🧩 Fix Monaco define conflict
-if (window.define && window.define.amd) {
-  window.define = undefined;
-  window.require = undefined;
-}
-
-const Editor = lazy(() => import("@monaco-editor/react"));
 
 function Home() {
   const options = [
     { value: "html-css-bootstrap", label: "HTML + CSS + Bootstrap" },
     { value: "html-tailwind-js", label: "HTML + Tailwind CSS + JS" },
     { value: "html-css-js", label: "HTML + CSS + JS" },
-    { value: "react-tailwind", label: "React JS + Tailwind CSS" },
+    { value: "react-css", label: "React JS + CSS" },
   ];
 
-  const [outputScreen, setOutputScreen] = useState(false);
+  const [outputScreen, setOutputScreen] = useState(true);
   const [tab, setTab] = useState(1);
   const [prompt, setPrompt] = useState("");
   const [frameWork, setFrameWork] = useState(options[0]);
@@ -68,7 +58,7 @@ function Home() {
         setProgressPercent((p) => Math.min(95, p + Math.floor(Math.random() * 6) + 1));
       }, 700);
 
-      // ✅ Call relative API path for Vercel
+      //  Call relative API path for Vercel
       const resp = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -101,7 +91,7 @@ function Home() {
     }
   }
 
-  // 📋 Copy code
+  //  Copy code
   const copyCode = async () => {
     if (!code.trim()) return toast.error("No code to copy");
     try {
@@ -250,19 +240,19 @@ function Home() {
                 <div className="flex items-center gap-2.5">
                   {tab === 1 ? (
                     <>
-                      <button onClick={copyCode} className="tool-btn">
+                      <button onClick={copyCode} className="tool-btn cursor-pointer mr-2">
                         <Copy />
                       </button>
-                      <button onClick={downloadFile} className="tool-btn">
+                      <button onClick={downloadFile} className="tool-btn cursor-pointer text-2xl">
                         <CgExport />
                       </button>
                     </>
                   ) : (
                     <>
-                      <button onClick={() => setIsNewTabOpen(true)} className="tool-btn">
+                      <button onClick={() => setIsNewTabOpen(true)} className="tool-btn cursor-pointer text-2xl">
                         <ArrowUpRightFromSquareIcon />
                       </button>
-                      <button onClick={() => setRefreshKey((prev) => prev + 1)} className="tool-btn">
+                      <button onClick={() => setRefreshKey((prev) => prev + 1)} className="tool-btn cursor-pointer text-2xl">
                         <RefreshCw />
                       </button>
                     </>
@@ -278,12 +268,15 @@ function Home() {
                       <div className="text-gray-400 text-center py-10">Loading editor...</div>
                     }
                   >
-                    <Editor
+                    <AceEditor
                       value={code}
-                      height="100%"
-                      theme="vs-dark"
-                      language="html"
-                      options={{ readOnly: true }}
+                      mode="javascript"
+                      theme="monokai"
+                      name="code-editor"
+                      fontSize={16}
+                      width="100%"
+                      height="400px"
+                      setOptions={{ useWorker: false }}
                     />
                   </Suspense>
                 ) : (

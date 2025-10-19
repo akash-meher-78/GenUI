@@ -21,6 +21,7 @@ body {
   --card-bg: #141319;
   --text-primary: #ffffff;
   --text-secondary: #9ca3af;
+  --accent: #0ea5e9;
   --btn-bg: #17171c;
   --btn-text: #ffffff;
   --btn-border: rgba(255,255,255,0.06);
@@ -60,6 +61,19 @@ body {
   justify-content: center;
   border: 1px solid rgba(255, 255, 255, 0.05);
   background-color: var(--background-secondary);
+}
+
+/* make svg icons inherit the current color so theme toggles affect them */
+.nav-icon svg,
+.icon-btn svg {
+  color: inherit;
+  fill: currentColor;
+}
+
+/* icons should follow the theme text color */
+.nav-icon,
+.icon-btn {
+  color: var(--text-primary);
 }
 
 /* Theme-aware button / tab styles */

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SunDimIcon, UserCircle, SettingsIcon, User } from "lucide-react";
+import { SunDimIcon, User, LucideSettings } from "lucide-react";
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
 
 function Navbar() {
@@ -42,7 +42,7 @@ function Navbar() {
 
         {/* Settings */}
         <div className="nav-icon cursor-pointer">
-          <SettingsIcon className="w-6 h-6" />
+          <LucideSettings className="w-6 h-6" />
         </div>
       </div>
     </div>

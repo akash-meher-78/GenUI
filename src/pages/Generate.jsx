@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, Suspense } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ArrowLeft, Copy, ArrowUpRightFromSquareIcon, RefreshCw } from "lucide-react";
+import { ArrowLeft, Copy, ArrowUpRightFromSquareIcon, RefreshCw, Download } from "lucide-react";
 import Navbar from "../components/Navbar";
 import AceEditor from "react-ace";
 import { ClipLoader } from "react-spinners";
@@ -96,10 +96,30 @@ function Generate() {
                 <div className="rounded-xl overflow-hidden" style={{ background: 'var(--background-secondary)', border: '1px solid var(--btn-border)' }}>
                     <div className="flex justify-between items-center px-4 py-4 border-b border-[#333]">
                         <span className="font-mono font-bold text-lg">Code</span>
-                        <div className="flex gap-2">
-                            <button onClick={copyCode} className="hover:text-sky-400  cursor-pointer">
-                                <Copy size={iconSize} />
-                            </button>
+                        <div className="flex gap-5">
+                                            <button onClick={copyCode} className="hover:text-sky-400  cursor-pointer" aria-label="Copy code">
+                                                <Copy size={iconSize} />
+                                            </button>
+                                            <button onClick={() => {
+                                                if (!code) return toast.error('No code to download');
+                                                try {
+                                                    const blob = new Blob([code], { type: 'text/html' });
+                                                    const url = URL.createObjectURL(blob);
+                                                    const a = document.createElement('a');
+                                                    a.href = url;
+                                                    a.download = 'Generated-Component.html';
+                                                    document.body.appendChild(a);
+                                                    a.click();
+                                                    a.remove();
+                                                    URL.revokeObjectURL(url);
+                                                    toast.success('Downloaded');
+                                                } catch (err) {
+                                                    console.error(err);
+                                                    toast.error('Download failed');
+                                                }
+                                            }} className="hover:text-sky-400 cursor-pointer" aria-label="Download code">
+                                                <Download size={iconSize} />
+                                            </button>
                         </div>
                     </div>
                     <Suspense fallback={<div className="text-gray-400 text-center py-10">Loading editor...</div>}>
@@ -121,10 +141,22 @@ function Generate() {
                     <div className="flex justify-between items-center px-4 py-4" style={{ background: 'var(--background-secondary)' }}>
                         <span className="font-bold font-mono text-lg">Preview</span>
                         <div className="flex gap-5">
-                            <button onClick={() => setRefreshKey((k) => k + 1)} className="text-gray-600 hover:text-black cursor-pointer">
+                            <button onClick={() => setRefreshKey((k) => k + 1)} className="text-gray-600 hover:text-black cursor-pointer" aria-label="Refresh preview">
                                 <RefreshCw size={iconSize} />
                             </button>
-                            <button className="text-gray-600 hover:text-black cursor-pointer">
+                            <button onClick={() => {
+                                if (!code) return toast.error('Nothing to preview');
+                                try {
+                                    const newWin = window.open('', '_blank');
+                                    if (!newWin) return toast.error('Unable to open new tab');
+                                    newWin.document.open();
+                                    newWin.document.write(code);
+                                    newWin.document.close();
+                                } catch (err) {
+                                    console.error(err);
+                                    toast.error('Failed to open preview');
+                                }
+                            }} className="text-gray-600 hover:text-black cursor-pointer" aria-label="Open preview in new tab">
                                 <ArrowUpRightFromSquareIcon size={iconSize} />
                             </button>
                         </div>

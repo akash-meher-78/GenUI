@@ -12,6 +12,7 @@ function Home() {
     { value: "html-tailwind-js", label: "HTML + Tailwind CSS + JS" },
     { value: "html-css-js", label: "HTML + CSS + JS" },
     { value: "react-tailwind", label: "React JS + Tailwind CSS" },
+    { value: "react-bootstrap", label: "React JS + Bootstrap" },
   ];
 
   const [framework, setFramework] = useState(options[2]);
@@ -129,7 +130,7 @@ function Home() {
         </h1>
 
         <p className=" text-base sm:text-lg max-w-2xl mb-10 font-ui">
-          Create stunning apps and components by chatting with AI. Pick your
+          Create stunning websites and components by chatting with AI. Pick your
           stack, describe the idea, and we will generate the code and preview
           instantly.
         </p>
